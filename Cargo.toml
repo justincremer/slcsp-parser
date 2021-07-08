@@ -4,5 +4,9 @@ version = "0.1.0"
 edition = "2018"
 
 [dependencies]
-csv = "*"
-serde = "*"
+csv = "1.1.6"
+serde = { version = "1.0.126", features = ["derive"] }
+
+[[bin]]
+name = "slcsp-parser"
+path = "bin/main.rs"
