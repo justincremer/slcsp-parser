@@ -41,3 +41,48 @@ impl PlanList {
         }
     }
 }
+
+#[cfg(test)]
+mod test {
+    use crate::parse::{Load, PlanList, SlcspList, ZipcodeList};
+
+    #[test]
+    fn test_second_smallest_rate_positive() {
+        let files = (
+            "test_data/slcsp.csv",
+            "test_data/zips.csv",
+            "test_data/plans.csv",
+        );
+        let test_data = vec![
+            Some(245.2),
+            Some(212.35),
+            None,
+            Some(231.48),
+            Some(252.76),
+            Some(243.68),
+            Some(255.26),
+            Some(249.44),
+            Some(221.63),
+            Some(283.08),
+        ];
+
+        let mut slcsps = SlcspList::load(files.0);
+        let zipcodes = Box::from(ZipcodeList::load(files.1));
+        let plans = Box::from(PlanList::load(files.2));
+
+        for i in &mut slcsps.items {
+            i.rate = match i.find_zipcode_in(zipcodes.as_ref()) {
+                Some(z) => z.find_plans_in(plans.as_ref()).second_smallest_rate(),
+                None => None,
+            };
+        }
+
+        assert_eq!(
+            test_data,
+            slcsps.items[0..10]
+                .iter()
+                .map(|i| i.rate)
+                .collect::<Vec<Option<f32>>>()
+        );
+    }
+}
