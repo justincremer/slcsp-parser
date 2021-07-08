@@ -20,9 +20,9 @@ fn main() {
     println!("zipcode,rate");
     slcsps.items.iter().for_each(|i| println!("{}", i));
     println!(
-        "\nSolved {} slcsps in {} milliseconds.",
+        "\nSolved {} slcsps in {} nanoseconds.",
         slcsps.count,
-        total_time.as_millis()
+        total_time.as_nanos()
     );
 }
 
