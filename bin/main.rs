@@ -1,4 +1,4 @@
-use slcsp_parser::parse::{Load, PlanList, SlcspList, Zipcode, ZipcodeList};
+use slcsp_parser::parse::{Load, PlanList, SlcspList, ZipcodeList};
 
 fn main() {
     let files = ("prompt/slcsp.csv", "prompt/zips.csv", "prompt/plans.csv");
@@ -14,6 +14,6 @@ fn main() {
         };
     }
 
-    print!("zipcode,rate");
+    print!("zipcode,rate\n");
     slcsps.items.iter().for_each(|i| println!("{}", i));
 }

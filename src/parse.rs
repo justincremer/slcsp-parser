@@ -40,7 +40,7 @@ impl Load for SlcspList {
         List::<Slcsp>::new(items, count)
     }
 }
-// TODO: float to two decimal places
+
 #[derive(Debug, Deserialize, PartialEq)]
 pub struct Slcsp {
     pub zipcode: u32,
@@ -53,7 +53,7 @@ impl fmt::Display for Slcsp {
             "{},{}",
             self.zipcode,
             match self.rate {
-                Some(r) => format!("{}", r),
+                Some(r) => format!("{:.2}", r),
                 None => String::new(),
             }
         );
