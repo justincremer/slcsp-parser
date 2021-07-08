@@ -47,7 +47,29 @@ mod test {
     use crate::parse::{Load, PlanList, SlcspList, ZipcodeList};
 
     #[test]
-    fn test_second_smallest_rate_positive() {
+    fn find_zipcode_in_passes() {
+        let files = ("test_data/slcsp.csv", "test_data/zips.csv");
+        let test_data = vec![
+            64148, 67118, 40813, 18229, 51012, 79168, 54923, 67651, 49448, 27702,
+        ];
+
+        let slcsps = SlcspList::load(files.0);
+        let zipcodes = ZipcodeList::load(files.1);
+
+        assert_eq!(
+            test_data,
+            slcsps.items[0..10]
+                .iter()
+                .map(|i| i.find_zipcode_in(&zipcodes).unwrap().zipcode)
+                .collect::<Vec<u32>>()
+        );
+    }
+
+    #[test]
+    fn find_plans_in_passes() {}
+
+    #[test]
+    fn second_smallest_rate_passes() {
         let files = (
             "test_data/slcsp.csv",
             "test_data/zips.csv",
