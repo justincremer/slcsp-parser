@@ -5,12 +5,12 @@ use std::fs::File;
 use std::io::BufReader;
 
 pub struct List<'a, T> {
-    pub items: &'a Vec<T>,
+    pub items: Vec<&'a T>,
     pub count: usize,
 }
 
 impl<T> List<'_, T> {
-    pub fn new<'a>(items: &'a Vec<T>, count: usize) -> List<'a, T> {
+    pub fn new<'a>(items: Vec<&'a T>, count: usize) -> List<'a, T> {
         List {
             items: items,
             count: count,
@@ -26,7 +26,7 @@ pub type SlcspList<'a> = List<'a, Slcsp>;
 
 impl Load for SlcspList<'_> {
     fn load<'a>(path: &str) -> Self {
-        let mut items: Vec<Slcsp> = Vec::default();
+        let mut items: Vec<&Slcsp> = Vec::default();
         let mut count: usize = 0;
 
         let file = File::open(path).unwrap();
@@ -34,7 +34,7 @@ impl Load for SlcspList<'_> {
         let mut csv_reader = csv::Reader::from_reader(reader);
         for record in csv_reader.records() {
             let record = record.expect("malformed record");
-            items.push(Slcsp::from(record));
+            items.push(&Slcsp::from(record));
             count += 1;
         }
 
@@ -73,7 +73,7 @@ pub type ZipcodeList<'a> = List<'a, Zipcode>;
 
 impl Load for ZipcodeList<'_> {
     fn load<'a>(path: &str) -> Self {
-        let mut items: Vec<Zipcode> = Vec::default();
+        let mut items: Vec<&Zipcode> = Vec::default();
         let mut count: usize = 0;
 
         let file = File::open(path).unwrap();
@@ -81,7 +81,7 @@ impl Load for ZipcodeList<'_> {
         let mut csv_reader = csv::Reader::from_reader(reader);
         for record in csv_reader.records() {
             let record = record.expect("malformed record");
-            items.push(Zipcode::from(record));
+            items.push(&Zipcode::from(record));
             count += 1;
         }
 
@@ -119,7 +119,7 @@ pub type PlanList<'a> = List<'a, Plan>;
 
 impl Load for PlanList<'_> {
     fn load<'a>(path: &str) -> Self {
-        let mut items: Vec<Plan> = Vec::default();
+        let mut items: Vec<&Plan> = Vec::default();
         let mut count: usize = 0;
 
         let file = File::open(path).unwrap();
@@ -127,7 +127,7 @@ impl Load for PlanList<'_> {
         let mut csv_reader = csv::Reader::from_reader(reader);
         for record in csv_reader.records() {
             let record = record.expect("malformed record");
-            items.push(Plan::from(record));
+            items.push(&Plan::from(record));
             count += 1;
         }
 

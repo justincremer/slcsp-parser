@@ -38,7 +38,7 @@ use std::fmt;
 
 impl Slcsp {
     pub fn find_zipcode_in<'a>(&self, list: &'a ZipcodeList) -> Option<&'a Zipcode> {
-        for i in list.items {
+        for i in &list.items {
             if i.zipcode == self.zipcode {
                 return Some(i);
             }
@@ -49,16 +49,16 @@ impl Slcsp {
 }
 
 impl Zipcode {
-    pub fn find_plans_in<'a>(&self, list: &'a PlanList) -> PlanList {
-        let mut items: Vec<Plan> = Vec::default();
+    pub fn find_plans_in<'a>(&self, list: PlanList<'a>) -> PlanList<'a> {
+        let mut items: Vec<&Plan> = Vec::default();
         let mut count: usize = 0;
-        for i in list.items {
+        for i in &list.items {
             if i.state == self.state && i.rate_area == self.rate_area {
-                items.push(i.clone());
+                items.push(&i.clone());
                 count += 1;
             }
         }
 
-        List::<Plan>::new(&items, count)
+        List::<Plan>::new(items, count)
     }
 }
