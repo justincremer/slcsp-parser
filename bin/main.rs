@@ -3,7 +3,11 @@ use std::time::Instant;
 
 fn main() {
     let start_time = Instant::now();
-    let files = ("prompt/slcsp.csv", "prompt/zips.csv", "prompt/plans.csv");
+    let files = (
+        "test_data/slcsp.csv",
+        "test_data/zips.csv",
+        "test_data/plans.csv",
+    );
 
     let mut slcsps = SlcspList::load(files.0);
     let zipcodes = Box::from(ZipcodeList::load(files.1));
