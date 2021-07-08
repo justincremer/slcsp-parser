@@ -66,9 +66,6 @@ mod test {
     }
 
     #[test]
-    fn find_plans_in_passes() {}
-
-    #[test]
     fn second_smallest_rate_passes() {
         let files = (
             "test_data/slcsp.csv",
