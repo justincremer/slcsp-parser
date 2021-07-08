@@ -1,5 +1,5 @@
 extern crate csv;
-// #[macro_use]
+extern crate quickersort;
 extern crate serde;
 
 pub mod parse;

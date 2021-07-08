@@ -1,14 +1,19 @@
-use slcsp_parser::parse::{Load, PlanList, SlcspList, ZipcodeList};
+use slcsp_parser::parse::{Load, PlanList, SlcspList, Zipcode, ZipcodeList};
 
 fn main() {
-    let files = ("prompt/slcsp.csv", "prompt/plans.csv", "prompt/zips.csv");
+    let files = ("prompt/slcsp.csv", "prompt/zips.csv", "prompt/plans.csv");
 
-    let slcsps = SlcspList::load(files.0);
-    let plans = PlanList::load(files.1);
-    let zipcodes = ZipcodeList::load(files.2);
+    let mut slcsps = SlcspList::load(files.0);
+    let zipcodes = Box::from(ZipcodeList::load(files.1));
+    let plans = Box::from(PlanList::load(files.2));
 
-    println!(
-        "{}, count: {}\n{}, count: {}\n{}, count: {}\n",
-        files.0, slcsps.count, files.1, plans.count, files.2, zipcodes.count
-    );
+    for i in &mut slcsps.items {
+        i.rate = match i.find_zipcode_in(zipcodes.as_ref()) {
+            Some(z) => z.find_plans_in(plans.as_ref()).second_smallest_rate(),
+            None => None,
+        };
+    }
+
+    print!("zipcode,rate");
+    slcsps.items.iter().for_each(|i| println!("{}", i));
 }
